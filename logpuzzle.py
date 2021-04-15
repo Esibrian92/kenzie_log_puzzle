@@ -26,8 +26,11 @@ def read_urls(filename):
     extracting the hostname from the filename itself, sorting
     alphabetically in increasing order, and screening out duplicates.
     """
-    # +++your code here+++
-    pass
+    with open(filename) as f:
+        content = f.read()
+        print(content)
+    # with urllib.request.urlopen(filename, data=None) as response:
+    #     print(response)
 
 
 def download_images(img_urls, dest_dir):
@@ -67,7 +70,8 @@ def main(args):
     if parsed_args.todir:
         download_images(img_urls, parsed_args.todir)
     else:
-        print('\n'.join(img_urls))
+        # print('\n'.join(img_urls))
+        print(img_urls)
 
 
 if __name__ == '__main__':
