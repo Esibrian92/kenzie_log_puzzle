@@ -26,13 +26,16 @@ def read_urls(filename):
     extracting the hostname from the filename itself, sorting
     alphabetically in increasing order, and screening out duplicates.
     """
+    urls = []
     with open(filename) as f:
         content = f.read()
-        pattern = r"/edu/languages/google-python-class/images/puzzle/\S+"
-        matches = re.findall(pattern, content)
-        print(matches)
-    # with urllib.request.urlopen(filename, data=None) as response:
-    #     print(response)
+    pattern = r"/edu/languages/google-python-class/images/puzzle/\S+"
+    matches = re.findall(pattern, content)
+    host_name = "http://code.google.com/"
+    for items in matches:
+        url = f"{host_name}{items}"
+        urls.append(url)
+    return sorted(list(set(urls)))
 
 
 def download_images(img_urls, dest_dir):
@@ -52,7 +55,8 @@ def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--todir',
                         help='destination directory for downloaded images')
-    parser.add_argument('logfile', help='apache logfile to extract urls from')
+    parser.add_argument(
+        'logfile', help='apache logfile to extract urls from')
 
     return parser
 
@@ -72,7 +76,7 @@ def main(args):
     if parsed_args.todir:
         download_images(img_urls, parsed_args.todir)
     else:
-        # print('\n'.join(img_urls))
+        print('\n'.join(img_urls))
         print(img_urls)
 
 
