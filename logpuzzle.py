@@ -28,7 +28,9 @@ def read_urls(filename):
     """
     with open(filename) as f:
         content = f.read()
-        print(content)
+        pattern = r"/edu/languages/google-python-class/images/puzzle/\S+"
+        matches = re.findall(pattern, content)
+        print(matches)
     # with urllib.request.urlopen(filename, data=None) as response:
     #     print(response)
 
