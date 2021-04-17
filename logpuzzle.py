@@ -21,6 +21,7 @@ import sys
 import urllib.request
 import argparse
 import requests
+import webbrowser
 
 
 def read_urls(filename):
@@ -48,24 +49,34 @@ def download_images(img_urls, dest_dir):
     to show each local image file.
     Creates the directory if necessary.
     """
+    print("its downloading")
+    if not os.path.isdir(dest_dir):
+        os.makedirs(dest_dir)
     count = 0
+    url_list = []
     for url in img_urls:
         count += 1
-        filename = f"image-{count}"
-        fullpath = dest_dir + filename + ".jpg"
-        urllib.request.urlretrieve(url, fullpath)
+        filename = f"image{count}.jpg"
+        fullpath = os.path.join(dest_dir, filename)
+        urllib.request.urlretrieve(url, filename=fullpath)
+        url_list.append(filename)
 
+    with open(f"{dest_dir}/index.html", "w",) as f:
+        for list_url in url_list:
+            html = f"<img src='{list_url}' alt='animal_slice'/>"
+            f.write(html)
+    webbrowser.open_new_tab(f"{dest_dir}/index.html")
     # if not os.path.exists(dest_dir):
     #     os.makedirs(dest_dir)
     # else:
     #     for url in img_urls:
     #         urllib.request.urlretrieve(url, dest_dir)
     #     # with open(dest_dir, "wb") as f:
-        #     for url in img_urls:
-        #         download = urllib.request.urlretrieve(url, dest_dir)
-        #     f.write(download)
-        #     content = f.read()
-        # print(content)
+    #     for url in img_urls:
+    #         download = urllib.request.urlretrieve(url, dest_dir)
+    #     f.write(download)
+    #     content = f.read()
+    # print(content)
 
     # for url in img_urls:
     #         with open(dest_dir, "wb") as f:
