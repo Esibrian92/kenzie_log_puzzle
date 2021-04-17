@@ -48,13 +48,13 @@ def download_images(img_urls, dest_dir):
     to show each local image file.
     Creates the directory if necessary.
     """
-
+    count = 0
     for url in img_urls:
-        count = 0
         count += 1
-        filename = f"image{count}"
+        filename = f"image-{count}"
         fullpath = dest_dir + filename + ".jpg"
         urllib.request.urlretrieve(url, fullpath)
+
     # if not os.path.exists(dest_dir):
     #     os.makedirs(dest_dir)
     # else:
