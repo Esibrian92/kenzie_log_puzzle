@@ -13,12 +13,14 @@ Here's what a puzzle URL looks like (spread out onto multiple lines):
 HTTP/1.0" 302 528 "-" "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US;
 rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6"
 """
+__author__ = "Erick Sibrain, Alec"
 
 import os
 import re
 import sys
 import urllib.request
 import argparse
+import requests
 
 
 def read_urls(filename):
@@ -46,8 +48,37 @@ def download_images(img_urls, dest_dir):
     to show each local image file.
     Creates the directory if necessary.
     """
-    # +++your code here+++
-    pass
+
+    for url in img_urls:
+        count = 0
+        count += 1
+        filename = f"image{count}"
+        fullpath = dest_dir + filename + ".jpg"
+        urllib.request.urlretrieve(url, fullpath)
+    # if not os.path.exists(dest_dir):
+    #     os.makedirs(dest_dir)
+    # else:
+    #     for url in img_urls:
+    #         urllib.request.urlretrieve(url, dest_dir)
+    #     # with open(dest_dir, "wb") as f:
+        #     for url in img_urls:
+        #         download = urllib.request.urlretrieve(url, dest_dir)
+        #     f.write(download)
+        #     content = f.read()
+        # print(content)
+
+    # for url in img_urls:
+    #         with open(dest_dir, "wb") as f:
+    #             f.write(urllib.request.urlretrieve(url, dest_dir))
+    # for item in img_urls:
+    #     url = item
+    #     r = requests.get(url)
+    # with open(url, "w+") as f:
+    #     f.write(r.content)
+    # for i in image:
+    # for url in img_urls:
+    #     with open(url, "rb") as f:
+    #         f.write(urllib.request.urlretrieve(url, dest_dir))
 
 
 def create_parser():
