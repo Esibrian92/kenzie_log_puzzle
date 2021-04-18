@@ -30,15 +30,21 @@ def read_urls(filename):
     alphabetically in increasing order, and screening out duplicates.
     """
     urls = []
-    with open(filename) as f:
+    with open(filename, "r+") as f:
         content = f.read()
     pattern = r"/edu/languages/google-python-class/images/puzzle/\S+"
+    place_pattern = r"\w+bar-\S+"
     matches = re.findall(pattern, content)
+    place_matches = re.findall(place_pattern, content)
     host_name = "http://code.google.com/"
     for items in matches:
-        url = f"{host_name}{items}"
-        urls.append(url)
-    return sorted(list(set(urls)))
+        if place_pattern in place_matches:
+            sorted_urls = sorted(list(set(urls)), lambda t: t[-1])
+        else:
+            url = f"{host_name}{items}"
+            urls.append(url)
+            sorted_urls = sorted(list(set(urls)))
+    return sorted_urls
 
 
 def download_images(img_urls, dest_dir):
@@ -66,30 +72,6 @@ def download_images(img_urls, dest_dir):
             html = f"<img src='{list_url}' alt='animal_slice'/>"
             f.write(html)
     webbrowser.open_new_tab(f"{dest_dir}/index.html")
-    # if not os.path.exists(dest_dir):
-    #     os.makedirs(dest_dir)
-    # else:
-    #     for url in img_urls:
-    #         urllib.request.urlretrieve(url, dest_dir)
-    #     # with open(dest_dir, "wb") as f:
-    #     for url in img_urls:
-    #         download = urllib.request.urlretrieve(url, dest_dir)
-    #     f.write(download)
-    #     content = f.read()
-    # print(content)
-
-    # for url in img_urls:
-    #         with open(dest_dir, "wb") as f:
-    #             f.write(urllib.request.urlretrieve(url, dest_dir))
-    # for item in img_urls:
-    #     url = item
-    #     r = requests.get(url)
-    # with open(url, "w+") as f:
-    #     f.write(r.content)
-    # for i in image:
-    # for url in img_urls:
-    #     with open(url, "rb") as f:
-    #         f.write(urllib.request.urlretrieve(url, dest_dir))
 
 
 def create_parser():
