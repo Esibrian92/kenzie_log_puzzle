@@ -33,13 +33,16 @@ def read_urls(filename):
     with open(filename, "r+") as f:
         content = f.read()
     pattern = r"/edu/languages/google-python-class/images/puzzle/\S+"
-    place_pattern = r"\w+bar-\S+"
+    place_pattern = r"\w+bar\S+"
     matches = re.findall(pattern, content)
     place_matches = re.findall(place_pattern, content)
     host_name = "http://code.google.com/"
     for items in matches:
         if place_pattern in place_matches:
-            sorted_urls = sorted(list(set(urls)), lambda t: t[-1])
+            url = f"{host_name}{items}"
+            words = url.split("-")
+            last_4_words = words[-1]
+            sorted_urls = sorted(list(set(urls)), key=lambda t: last_4_words)
         else:
             url = f"{host_name}{items}"
             urls.append(url)
@@ -55,7 +58,8 @@ def download_images(img_urls, dest_dir):
     to show each local image file.
     Creates the directory if necessary.
     """
-    print("its downloading")
+    print(f"downloading, this may take some time please sit back and relax")
+
     if not os.path.isdir(dest_dir):
         os.makedirs(dest_dir)
     count = 0
